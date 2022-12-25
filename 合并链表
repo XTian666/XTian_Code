@@ -1,0 +1,74 @@
+# XTian_Code
+学习记录
+#include <bits/stdc++.h>
+using namespace std;
+const int N =100000;
+struct Node{
+    int value;
+    Node* next;
+}*h1, *h2, *t1, *t2, a[N+10], b[N+10];
+//创建链表，同时定义全局自动初始化head和tail为NAULL.
+int n,m;
+
+Node *Merge(Node *h1, Node *h2 ){
+    Node *h = NULL , *t = NULL;
+    while( h1 || h2 ){
+        if ( h1 && ( h2 == NULL || h1 -> value < h2 -> value ) ){
+            if ( h == NULL ){
+                h = h1;
+                t = h1;
+            } else {
+                t -> next = h1;
+                t = h1;
+            }
+            h1 = h1 -> next;
+        }
+
+        else{
+            if ( h == NULL ){
+                h = h2;
+                t = h2;
+            }else{
+                t -> next = h2;
+                t = h2;
+            }
+            h2 = h2 -> next;
+        }
+	}
+ return h;
+}
+
+int main()
+{
+    scanf("%d %d", &n, &m);
+    for( int i = 1; i <= n; i++ ){ //读入链表 1
+        scanf("%d", &a[i].value ); //读入数据
+        if ( h1 == NULL ){       //首先判断链表是否为空（是否为第一次操作，   //则插入头部
+            h1 = &a[i];          //若为第一次（即链表内只有一个节点，则head和tail均为 a[i])
+            t1 = &a[i];
+        }else{                   //若链表不空，即不是第一次操作，           //则插入尾部
+            t1 -> next = &a[i];  //连接插入节点
+            t1 = &a[i];          //更新tail 1
+        }
+    }
+
+    ///同理 读入链表2
+    for( int i = 1; i <= m; i++ ){ //读入链表 2
+        scanf("%d", &b[i].value ); //读入数据
+        if ( h2 == NULL ){       //首先判断链表是否为空（是否为第一次操作，   //则插入头部
+            h2 = &b[i];          //若为第一次（即链表内只有一个节点，则head和tail均为 b[i])
+            t2 = &b[i];
+        }else{                   //若链表不空，即不是第一次操作，           //则插入尾部
+            t2 -> next = &b[i];  //连接插入节点
+            t2 = &b[i];          //更新tail 2
+        }
+    }
+
+    Node* p = Merge( h1, h2);
+    for ( ; p ; p = p -> next ){
+        printf("%d ", p-> value);
+    }
+
+    return 0;
+}
+
